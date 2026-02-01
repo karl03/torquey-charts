@@ -1,0 +1,17 @@
+{
+  "name": "Honda Civic Type R FK8 (2.0L Turbo)",
+  "data": [
+    { "rpm": 1000, "torque": 150 },
+    { "rpm": 2000, "torque": 280 },
+    { "rpm": 2500, "torque": 295 },
+    { "rpm": 3000, "torque": 295 },
+    { "rpm": 4000, "torque": 295 },
+    { "rpm": 4500, "torque": 290 },
+    { "rpm": 5000, "torque": 275 },
+    { "rpm": 6000, "torque": 250 },
+    { "rpm": 7000, "torque": 220 }
+  ],
+  "wheelDiameter": 0.659,
+  "finalDriveRatio": 4.105,
+  "gears": [3.643, 2.08, 1.361, 1.024, 0.83, 0.686]
+}

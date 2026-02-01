@@ -1,0 +1,18 @@
+{
+  "name": "Toyota GR Supra A90 (3.0L Turbo)",
+  "data": [
+    { "rpm": 1000, "torque": 200 },
+    { "rpm": 1600, "torque": 369 },
+    { "rpm": 2000, "torque": 369 },
+    { "rpm": 3000, "torque": 369 },
+    { "rpm": 4000, "torque": 365 },
+    { "rpm": 4500, "torque": 355 },
+    { "rpm": 5000, "torque": 340 },
+    { "rpm": 5500, "torque": 320 },
+    { "rpm": 6000, "torque": 290 },
+    { "rpm": 6500, "torque": 250 }
+  ],
+  "wheelDiameter": 0.672,
+  "finalDriveRatio": 3.154,
+  "gears": [5.25, 3.029, 2.125, 1.678, 1.313, 1.0, 0.823, 0.64]
+}

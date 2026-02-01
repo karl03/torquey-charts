@@ -1,6 +1,12 @@
 import { useState } from "react";
-import type { TorqueDataPoint, TorqueUnit, GearConfig } from "../types";
+import type {
+  DataSet,
+  TorqueDataPoint,
+  TorqueUnit,
+  GearConfig,
+} from "../types";
 import { DataInputRow } from "./DataInputRow";
+import { ImportExportButtons } from "./ImportExportButtons";
 import { torqueUnitLabels } from "../utils/conversions";
 
 const TIRE_PRESETS: { label: string; value: number | null }[] = [
@@ -35,6 +41,7 @@ interface TorqueDataInputProps {
   onGearConfigChange: (config: GearConfig) => void;
   onSmoothCurveChange: (smoothCurve: boolean) => void;
   onDelete: () => void;
+  onImport: (updates: Partial<DataSet>) => void;
 }
 
 export function TorqueDataInput({
@@ -52,6 +59,7 @@ export function TorqueDataInput({
   onGearConfigChange,
   onSmoothCurveChange,
   onDelete,
+  onImport,
 }: TorqueDataInputProps) {
   // Local state to track dropdown selection (persists "Custom" choice)
   const [selectedPreset, setSelectedPreset] = useState<string>(() => {
@@ -154,6 +162,16 @@ export function TorqueDataInput({
     });
   };
 
+  // Build dataSet object for export
+  const dataSet: DataSet = {
+    name,
+    data,
+    visible,
+    color,
+    gearConfig,
+    smoothCurve,
+  };
+
   return (
     <div className="input-section" style={{ borderColor: color }}>
       <div className="section-header">
@@ -192,6 +210,8 @@ export function TorqueDataInput({
           )}
         </div>
       </div>
+
+      <ImportExportButtons dataSet={dataSet} onImport={onImport} />
 
       <h4>Torque Data</h4>
       <div className="data-header">

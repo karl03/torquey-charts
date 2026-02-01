@@ -1,0 +1,17 @@
+{
+  "name": "Nissan 370Z (3.7L V6)",
+  "data": [
+    { "rpm": 1000, "torque": 150 },
+    { "rpm": 2000, "torque": 220 },
+    { "rpm": 3000, "torque": 260 },
+    { "rpm": 4000, "torque": 275 },
+    { "rpm": 5000, "torque": 270 },
+    { "rpm": 5200, "torque": 268 },
+    { "rpm": 6000, "torque": 255 },
+    { "rpm": 7000, "torque": 230 },
+    { "rpm": 7500, "torque": 200 }
+  ],
+  "wheelDiameter": 0.65,
+  "finalDriveRatio": 3.692,
+  "gears": [3.794, 2.324, 1.624, 1.271, 1.0, 0.794]
+}

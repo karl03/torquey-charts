@@ -1,0 +1,17 @@
+{
+  "name": "Mazda MX-5 ND (2.0L)",
+  "data": [
+    { "rpm": 1000, "torque": 95 },
+    { "rpm": 2000, "torque": 130 },
+    { "rpm": 3000, "torque": 145 },
+    { "rpm": 4000, "torque": 148 },
+    { "rpm": 4600, "torque": 151 },
+    { "rpm": 5000, "torque": 148 },
+    { "rpm": 6000, "torque": 140 },
+    { "rpm": 7000, "torque": 125 },
+    { "rpm": 7500, "torque": 110 }
+  ],
+  "wheelDiameter": 0.607,
+  "finalDriveRatio": 3.454,
+  "gears": [5.087, 2.99, 2.034, 1.531, 1.213, 1.0]
+}

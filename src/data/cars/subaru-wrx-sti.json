@@ -1,0 +1,16 @@
+{
+  "name": "Subaru WRX STI (2.5L Turbo)",
+  "data": [
+    { "rpm": 1000, "torque": 150 },
+    { "rpm": 2000, "torque": 260 },
+    { "rpm": 3000, "torque": 290 },
+    { "rpm": 4000, "torque": 290 },
+    { "rpm": 4400, "torque": 290 },
+    { "rpm": 5000, "torque": 280 },
+    { "rpm": 6000, "torque": 255 },
+    { "rpm": 6500, "torque": 230 }
+  ],
+  "wheelDiameter": 0.632,
+  "finalDriveRatio": 3.9,
+  "gears": [3.636, 2.235, 1.521, 1.137, 0.971, 0.756]
+}

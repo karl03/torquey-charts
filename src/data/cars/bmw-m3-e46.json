@@ -1,0 +1,17 @@
+{
+  "name": "BMW M3 E46 (3.2L S54)",
+  "data": [
+    { "rpm": 1000, "torque": 140 },
+    { "rpm": 2000, "torque": 200 },
+    { "rpm": 3000, "torque": 250 },
+    { "rpm": 3900, "torque": 262 },
+    { "rpm": 4500, "torque": 260 },
+    { "rpm": 5000, "torque": 255 },
+    { "rpm": 6000, "torque": 245 },
+    { "rpm": 7000, "torque": 225 },
+    { "rpm": 8000, "torque": 190 }
+  ],
+  "wheelDiameter": 0.637,
+  "finalDriveRatio": 3.62,
+  "gears": [4.227, 2.528, 1.669, 1.226, 1.0, 0.828]
+}

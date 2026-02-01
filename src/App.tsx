@@ -10,6 +10,7 @@ import { TorqueDataInput } from "./components/TorqueDataInput";
 import { UnitSelector } from "./components/UnitSelector";
 import { TorquePowerChart } from "./components/TorquePowerChart";
 import { SpeedChart } from "./components/SpeedChart";
+import { CarLibrary } from "./components/CarLibrary";
 import "./App.css";
 
 const DATASET_COLORS = [
@@ -84,6 +85,14 @@ function App() {
     setDataSets((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const addPresetCar = (carData: Partial<DataSet>) => {
+    const newCar: DataSet = {
+      ...createNewCar(dataSets.length),
+      ...carData,
+    };
+    setDataSets((prev) => [...prev, newCar]);
+  };
+
   return (
     <div className="app">
       <h1>🏎️ Torquey Charts</h1>
@@ -111,12 +120,16 @@ function App() {
                 updateDataSet(index, { smoothCurve })
               }
               onDelete={() => deleteCar(index)}
+              onImport={(updates) => updateDataSet(index, updates)}
             />
           ))}
 
-          <button className="btn-add-car" onClick={addCar}>
-            + Add Car
-          </button>
+          <div className="sidebar-actions">
+            <button className="btn-add-car" onClick={addCar}>
+              + Add Car
+            </button>
+            <CarLibrary onAddCar={addPresetCar} />
+          </div>
         </div>
 
         <div className="charts">

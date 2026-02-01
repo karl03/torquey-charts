@@ -1,0 +1,17 @@
+{
+  "name": "Porsche 911 Carrera S 992 (3.0L Twin Turbo)",
+  "data": [
+    { "rpm": 1000, "torque": 280 },
+    { "rpm": 2000, "torque": 390 },
+    { "rpm": 2300, "torque": 390 },
+    { "rpm": 3000, "torque": 390 },
+    { "rpm": 4000, "torque": 390 },
+    { "rpm": 5000, "torque": 380 },
+    { "rpm": 6000, "torque": 350 },
+    { "rpm": 7000, "torque": 310 },
+    { "rpm": 7500, "torque": 280 }
+  ],
+  "wheelDiameter": 0.665,
+  "finalDriveRatio": 3.091,
+  "gears": [3.91, 2.29, 1.58, 1.19, 0.97, 0.82, 0.67]
+}

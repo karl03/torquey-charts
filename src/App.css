@@ -64,6 +64,8 @@ h4 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .section-header h3 {
@@ -79,6 +81,8 @@ h4 {
   font-weight: 600;
   padding: 5px 0;
   width: 150px;
+  min-width: 100px;
+  flex-shrink: 1;
 }
 
 .dataset-name:focus {
@@ -89,14 +93,14 @@ h4 {
 .visibility-toggle {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .visibility-toggle input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
   accent-color: #4ecdc4;
 }
@@ -104,7 +108,8 @@ h4 {
 .header-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-delete-car {
@@ -289,6 +294,39 @@ button {
   min-width: 80px;
 }
 
+.chart-wrapper {
+  position: relative;
+}
+
+.chart-toggles {
+  display: flex;
+  gap: 15px;
+  padding: 10px 15px;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+
+.chart-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.chart-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #4ecdc4;
+}
+
+.chart-wrapper .chart-container {
+  border-radius: 0 0 12px 12px;
+}
+
 .chart-container {
   background: #1a1a2e;
   border-radius: 12px;
@@ -302,6 +340,172 @@ button {
   color: #666;
   margin: 15px 0 0 0;
   font-style: italic;
+}
+
+.import-export-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.btn-io {
+  flex: 1;
+  background: #252542;
+  color: #aaa;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-io:hover {
+  background: #333355;
+  color: #fff;
+  border-color: #4ecdc4;
+}
+
+/* Sidebar actions */
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Car Library */
+.btn-library {
+  background: #1a1a2e;
+  color: #feca57;
+  padding: 15px 20px;
+  font-weight: 600;
+  width: 100%;
+  border: 2px dashed #feca57;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-library:hover {
+  background: #252542;
+  border-style: solid;
+}
+
+.car-library {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 15px;
+  border: 2px solid #feca57;
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.library-header h3 {
+  margin: 0;
+  color: #feca57;
+}
+
+.btn-close {
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-close:hover {
+  background: #333;
+  color: #fff;
+}
+
+.library-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: #252542;
+  color: #888;
+  border: 1px solid #444;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: #333355;
+  color: #fff;
+}
+
+.filter-btn.active {
+  background: #feca57;
+  color: #1a1a2e;
+  border-color: #feca57;
+}
+
+.library-cars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.library-car-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #252542;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.car-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.car-name {
+  color: #eee;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-category {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.btn-add-preset {
+  background: #4ecdc4;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-add-preset:hover {
+  background: #3dbdb5;
 }
 
 @media (max-width: 900px) {

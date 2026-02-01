@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import type { DataSet, TorqueUnit, PowerUnit } from "../types";
 import {
@@ -22,6 +22,8 @@ export function TorquePowerChart({
 }: TorquePowerChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstanceRef = useRef<Highcharts.Chart | null>(null);
+  const [showTorque, setShowTorque] = useState(true);
+  const [showPower, setShowPower] = useState(true);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -45,34 +47,39 @@ export function TorquePowerChart({
           ];
         });
 
-        series.push({
-          name: `${dataSet.name} Torque`,
-          type: dataSet.smoothCurve ? "spline" : "line",
-          data: torqueData,
-          color: dataSet.color,
-          yAxis: 0,
-          tooltip: {
-            valueSuffix: ` ${torqueUnitLabels[torqueUnit]}`,
-          },
-        });
+        if (showTorque) {
+          series.push({
+            name: `${dataSet.name} Torque`,
+            type: dataSet.smoothCurve ? "spline" : "line",
+            data: torqueData,
+            color: dataSet.color,
+            yAxis: 0,
+            tooltip: {
+              valueSuffix: ` ${torqueUnitLabels[torqueUnit]}`,
+            },
+          });
+        }
 
-        series.push({
-          name: `${dataSet.name} Power`,
-          type: dataSet.smoothCurve ? "spline" : "line",
-          data: powerData,
-          color: dataSet.color,
-          yAxis: 1,
-          dashStyle: "Dash",
-          tooltip: {
-            valueSuffix: ` ${powerUnitLabels[powerUnit]}`,
-          },
-        });
+        if (showPower) {
+          series.push({
+            name: `${dataSet.name} Power`,
+            type: dataSet.smoothCurve ? "spline" : "line",
+            data: powerData,
+            color: dataSet.color,
+            yAxis: 1,
+            dashStyle: "Dash",
+            tooltip: {
+              valueSuffix: ` ${powerUnitLabels[powerUnit]}`,
+            },
+          });
+        }
       });
 
     const options: Highcharts.Options = {
       chart: {
         type: "spline",
         backgroundColor: "#1a1a2e",
+        zooming: { type: "xy" },
       },
       title: {
         text: "Torque & Power vs RPM",
@@ -125,7 +132,29 @@ export function TorquePowerChart({
         chartInstanceRef.current = null;
       }
     };
-  }, [dataSets, torqueUnit, powerUnit]);
+  }, [dataSets, torqueUnit, powerUnit, showTorque, showPower]);
 
-  return <div ref={chartRef} className="chart-container" />;
+  return (
+    <div className="chart-wrapper">
+      <div className="chart-toggles">
+        <label className="chart-toggle">
+          <input
+            type="checkbox"
+            checked={showTorque}
+            onChange={(e) => setShowTorque(e.target.checked)}
+          />
+          <span style={{ color: "#ff6b6b" }}>Torque</span>
+        </label>
+        <label className="chart-toggle">
+          <input
+            type="checkbox"
+            checked={showPower}
+            onChange={(e) => setShowPower(e.target.checked)}
+          />
+          <span style={{ color: "#4ecdc4" }}>Power</span>
+        </label>
+      </div>
+      <div ref={chartRef} className="chart-container" />
+    </div>
+  );
 }

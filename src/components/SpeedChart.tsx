@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import type { DataSet, TorqueUnit, PowerUnit, SpeedUnit } from "../types";
 import {
@@ -38,6 +38,8 @@ export function SpeedChart({
 }: SpeedChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstanceRef = useRef<Highcharts.Chart | null>(null);
+  const [showTorque, setShowTorque] = useState(true);
+  const [showPower, setShowPower] = useState(true);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -103,29 +105,35 @@ export function SpeedChart({
           ? dataSet.color
           : GEAR_COLORS[gearIndex % GEAR_COLORS.length];
 
-        allSeries.push({
-          name: `${seriesName} Torque`,
-          type: dataSet.smoothCurve ? "spline" : "line",
-          data: torqueData,
-          color: gearColor,
-          yAxis: 0,
-          dashStyle: "Solid",
-          tooltip: {
-            valueSuffix: " N·m",
-          },
-        });
+        if (showTorque) {
+          allSeries.push({
+            name: `${seriesName} Torque`,
+            type: dataSet.smoothCurve ? "spline" : "line",
+            data: torqueData,
+            color: gearColor,
+            marker: { enabled: false },
+            yAxis: 0,
+            dashStyle: "Solid",
+            tooltip: {
+              valueSuffix: " N·m",
+            },
+          } as Highcharts.SeriesOptionsType);
+        }
 
-        allSeries.push({
-          name: `${seriesName} Power`,
-          type: dataSet.smoothCurve ? "spline" : "line",
-          data: powerData,
-          color: gearColor,
-          yAxis: 1,
-          dashStyle: "Dash",
-          tooltip: {
-            valueSuffix: ` ${powerUnitLabels[powerUnit]}`,
-          },
-        });
+        if (showPower) {
+          allSeries.push({
+            name: `${seriesName} Power`,
+            type: dataSet.smoothCurve ? "spline" : "line",
+            data: powerData,
+            color: gearColor,
+            marker: { enabled: false },
+            yAxis: 1,
+            dashStyle: "Dash",
+            tooltip: {
+              valueSuffix: ` ${powerUnitLabels[powerUnit]}`,
+            },
+          });
+        }
       });
     });
 
@@ -133,6 +141,7 @@ export function SpeedChart({
       chart: {
         type: "spline",
         backgroundColor: "#1a1a2e",
+        zooming: { type: "xy" },
       },
       title: {
         text: "Wheel Torque & Power vs Speed",
@@ -187,7 +196,29 @@ export function SpeedChart({
         chartInstanceRef.current = null;
       }
     };
-  }, [dataSets, torqueUnit, powerUnit, speedUnit]);
+  }, [dataSets, torqueUnit, powerUnit, speedUnit, showTorque, showPower]);
 
-  return <div ref={chartRef} className="chart-container" />;
+  return (
+    <div className="chart-wrapper">
+      <div className="chart-toggles">
+        <label className="chart-toggle">
+          <input
+            type="checkbox"
+            checked={showTorque}
+            onChange={(e) => setShowTorque(e.target.checked)}
+          />
+          <span style={{ color: "#ff6b6b" }}>Wheel Torque</span>
+        </label>
+        <label className="chart-toggle">
+          <input
+            type="checkbox"
+            checked={showPower}
+            onChange={(e) => setShowPower(e.target.checked)}
+          />
+          <span style={{ color: "#4ecdc4" }}>Power</span>
+        </label>
+      </div>
+      <div ref={chartRef} className="chart-container" />
+    </div>
+  );
 }
