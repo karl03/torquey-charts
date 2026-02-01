@@ -55,7 +55,7 @@ export function SpeedChart({
 
     eligibleDataSets.forEach((dataSet) => {
       const validData = dataSet.data
-        .filter((d) => d.rpm >= 0 && d.torque > 0)
+        .filter((d) => d.rpm >= 0 && d.torque >= 0)
         .sort((a, b) => a.rpm - b.rpm);
 
       // If no gear ratios, use 1:1 (for EVs or single gear)

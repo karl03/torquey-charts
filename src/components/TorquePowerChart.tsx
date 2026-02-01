@@ -34,7 +34,7 @@ export function TorquePowerChart({
       .filter((ds) => ds.visible)
       .forEach((dataSet) => {
         const validData = dataSet.data
-          .filter((d) => d.rpm >= 0 && d.torque > 0)
+          .filter((d) => d.rpm >= 0 && d.torque >= 0)
           .sort((a, b) => a.rpm - b.rpm);
 
         const torqueData = validData.map((d) => [d.rpm, d.torque]);
