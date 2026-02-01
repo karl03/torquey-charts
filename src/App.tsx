@@ -31,6 +31,7 @@ const createNewCar = (index: number): DataSet => ({
     gearRatios: [],
     tireCircumference: null,
   },
+  smoothCurve: true,
 });
 
 const initialDataSets: DataSet[] = [
@@ -51,6 +52,7 @@ const initialDataSets: DataSet[] = [
       gearRatios: [],
       tireCircumference: null,
     },
+    smoothCurve: true,
   },
 ];
 
@@ -97,12 +99,16 @@ function App() {
               visible={dataSet.visible}
               color={dataSet.color}
               gearConfig={dataSet.gearConfig}
+              smoothCurve={dataSet.smoothCurve}
               canDelete={dataSets.length > 1}
               onDataChange={(data) => updateDataSet(index, { data })}
               onNameChange={(name) => updateDataSet(index, { name })}
               onVisibleChange={(visible) => updateDataSet(index, { visible })}
               onGearConfigChange={(gearConfig) =>
                 updateDataSet(index, { gearConfig })
+              }
+              onSmoothCurveChange={(smoothCurve) =>
+                updateDataSet(index, { smoothCurve })
               }
               onDelete={() => deleteCar(index)}
             />

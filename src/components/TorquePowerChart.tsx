@@ -47,7 +47,7 @@ export function TorquePowerChart({
 
         series.push({
           name: `${dataSet.name} Torque`,
-          type: "spline",
+          type: dataSet.smoothCurve ? "spline" : "line",
           data: torqueData,
           color: dataSet.color,
           yAxis: 0,
@@ -58,7 +58,7 @@ export function TorquePowerChart({
 
         series.push({
           name: `${dataSet.name} Power`,
-          type: "spline",
+          type: dataSet.smoothCurve ? "spline" : "line",
           data: powerData,
           color: dataSet.color,
           yAxis: 1,

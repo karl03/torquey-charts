@@ -186,6 +186,22 @@ h4 {
   color: #aaa;
 }
 
+.tire-spec-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.tire-spec-inputs input {
+  width: 70px;
+}
+
+.tire-spec-inputs span {
+  color: #888;
+  font-weight: bold;
+}
+
 .gear-list {
   margin-bottom: 10px;
 }

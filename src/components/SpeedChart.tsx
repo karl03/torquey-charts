@@ -79,11 +79,14 @@ export function SpeedChart({
           );
           const speed = convertSpeed(speedMs, speedUnit);
 
-          const wheelTorqueNm = calculateWheelTorque(
-            torqueNm,
-            gearRatio,
-            dataSet.gearConfig.finalDriveRatio!,
-          );
+          const wheelTorqueNm =
+            Math.round(
+              calculateWheelTorque(
+                torqueNm,
+                gearRatio,
+                dataSet.gearConfig.finalDriveRatio!,
+              ) * 100,
+            ) / 100;
           const powerKw = calculatePowerKw(torqueNm, d.rpm);
           const power =
             Math.round(convertPower(powerKw, powerUnit) * 100) / 100;
@@ -102,7 +105,7 @@ export function SpeedChart({
 
         allSeries.push({
           name: `${seriesName} Torque`,
-          type: "spline",
+          type: dataSet.smoothCurve ? "spline" : "line",
           data: torqueData,
           color: gearColor,
           yAxis: 0,
@@ -114,7 +117,7 @@ export function SpeedChart({
 
         allSeries.push({
           name: `${seriesName} Power`,
-          type: "spline",
+          type: dataSet.smoothCurve ? "spline" : "line",
           data: powerData,
           color: gearColor,
           yAxis: 1,

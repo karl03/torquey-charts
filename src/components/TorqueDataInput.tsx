@@ -5,18 +5,18 @@ import { torqueUnitLabels } from "../utils/conversions";
 
 const TIRE_PRESETS: { label: string; value: number | null }[] = [
   { label: "Select tire size...", value: null },
-  { label: "205/55R16 (1.97m)", value: 1.97 },
-  { label: "215/45R17 (1.94m)", value: 1.94 },
-  { label: "225/45R17 (1.98m)", value: 1.98 },
-  { label: "225/40R18 (1.96m)", value: 1.96 },
-  { label: "235/40R18 (2.00m)", value: 2.0 },
-  { label: "245/40R18 (2.01m)", value: 2.01 },
-  { label: "255/35R18 (1.96m)", value: 1.96 },
-  { label: "265/35R18 (2.00m)", value: 2.0 },
-  { label: "275/35R19 (2.07m)", value: 2.07 },
-  { label: "285/30R19 (2.00m)", value: 2.0 },
-  { label: "295/30R20 (2.09m)", value: 2.09 },
-  { label: "305/30R20 (2.11m)", value: 2.11 },
+  { label: "205/55R16 (0.627m)", value: 1.97 },
+  { label: "215/45R17 (0.617m)", value: 1.94 },
+  { label: "225/45R17 (0.630m)", value: 1.98 },
+  { label: "225/40R18 (0.624m)", value: 1.96 },
+  { label: "235/40R18 (0.637m)", value: 2.0 },
+  { label: "245/40R18 (0.640m)", value: 2.01 },
+  { label: "255/35R18 (0.624m)", value: 1.96 },
+  { label: "265/35R18 (0.637m)", value: 2.0 },
+  { label: "275/35R19 (0.659m)", value: 2.07 },
+  { label: "285/30R19 (0.637m)", value: 2.0 },
+  { label: "295/30R20 (0.665m)", value: 2.09 },
+  { label: "305/30R20 (0.672m)", value: 2.11 },
   { label: "Custom", value: -1 },
 ];
 
@@ -27,11 +27,13 @@ interface TorqueDataInputProps {
   visible: boolean;
   color: string;
   gearConfig: GearConfig;
+  smoothCurve: boolean;
   canDelete: boolean;
   onDataChange: (data: TorqueDataPoint[]) => void;
   onNameChange: (name: string) => void;
   onVisibleChange: (visible: boolean) => void;
   onGearConfigChange: (config: GearConfig) => void;
+  onSmoothCurveChange: (smoothCurve: boolean) => void;
   onDelete: () => void;
 }
 
@@ -42,11 +44,13 @@ export function TorqueDataInput({
   visible,
   color,
   gearConfig,
+  smoothCurve,
   canDelete,
   onDataChange,
   onNameChange,
   onVisibleChange,
   onGearConfigChange,
+  onSmoothCurveChange,
   onDelete,
 }: TorqueDataInputProps) {
   // Local state to track dropdown selection (persists "Custom" choice)
@@ -62,12 +66,10 @@ export function TorqueDataInput({
         : "";
   });
 
-  // Local state for custom diameter input (avoids formatting issues while typing)
-  const [customDiameter, setCustomDiameter] = useState<string>(() => {
-    return gearConfig.tireCircumference !== null
-      ? (gearConfig.tireCircumference / Math.PI).toFixed(3)
-      : "";
-  });
+  // Local state for custom tire spec inputs
+  const [tireWidth, setTireWidth] = useState<string>("");
+  const [tireRatio, setTireRatio] = useState<string>("");
+  const [rimDiameter, setRimDiameter] = useState<string>("");
 
   const handleChange = (
     index: number,
@@ -97,12 +99,22 @@ export function TorqueDataInput({
     });
   };
 
-  const handleTireDiameterChange = (value: string) => {
-    setCustomDiameter(value);
-    const diameter = parseFloat(value);
-    // Convert diameter to circumference: C = π × d
-    const circumference = isNaN(diameter) ? null : diameter * Math.PI;
-    onGearConfigChange({ ...gearConfig, tireCircumference: circumference });
+  const handleTireSpecChange = (width: string, ratio: string, rim: string) => {
+    const w = parseFloat(width);
+    const r = parseFloat(ratio);
+    const d = parseFloat(rim);
+
+    if (!isNaN(w) && !isNaN(r) && !isNaN(d)) {
+      // Sidewall height in mm = width × (aspect ratio / 100)
+      const sidewallMm = w * (r / 100);
+      // Total diameter in mm = 2 × sidewall + rim diameter in mm
+      const diameterMm = 2 * sidewallMm + d * 25.4;
+      // Convert to meters and calculate circumference
+      const circumference = (diameterMm / 1000) * Math.PI;
+      onGearConfigChange({ ...gearConfig, tireCircumference: circumference });
+    } else {
+      onGearConfigChange({ ...gearConfig, tireCircumference: null });
+    }
   };
 
   const handleTirePresetChange = (value: string) => {
@@ -161,6 +173,14 @@ export function TorqueDataInput({
             />
             <span style={{ color }}>Show</span>
           </label>
+          <label className="visibility-toggle">
+            <input
+              type="checkbox"
+              checked={smoothCurve}
+              onChange={(e) => onSmoothCurveChange(e.target.checked)}
+            />
+            <span style={{ color }}>Smooth</span>
+          </label>
           {canDelete && (
             <button
               className="btn-delete-car"
@@ -211,14 +231,40 @@ export function TorqueDataInput({
           </select>
         </label>
         {(isCustomTire || selectedPreset === "-1") && (
-          <input
-            type="number"
-            placeholder="e.g., 0.65"
-            value={customDiameter}
-            onChange={(e) => handleTireDiameterChange(e.target.value)}
-            step="0.001"
-            min="0"
-          />
+          <div className="tire-spec-inputs">
+            <input
+              type="number"
+              placeholder="Width (mm)"
+              value={tireWidth}
+              onChange={(e) => {
+                setTireWidth(e.target.value);
+                handleTireSpecChange(e.target.value, tireRatio, rimDiameter);
+              }}
+              min="0"
+            />
+            <span>/</span>
+            <input
+              type="number"
+              placeholder="Ratio (%)"
+              value={tireRatio}
+              onChange={(e) => {
+                setTireRatio(e.target.value);
+                handleTireSpecChange(tireWidth, e.target.value, rimDiameter);
+              }}
+              min="0"
+            />
+            <span>R</span>
+            <input
+              type="number"
+              placeholder="Rim (in)"
+              value={rimDiameter}
+              onChange={(e) => {
+                setRimDiameter(e.target.value);
+                handleTireSpecChange(tireWidth, tireRatio, e.target.value);
+              }}
+              min="0"
+            />
+          </div>
         )}
       </div>
       <div className="gear-input-group">

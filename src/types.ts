@@ -9,6 +9,7 @@ export interface DataSet {
   visible: boolean;
   color: string;
   gearConfig: GearConfig;
+  smoothCurve: boolean;
 }
 
 export type TorqueUnit = "lbft" | "nm";
